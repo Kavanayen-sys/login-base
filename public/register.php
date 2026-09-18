@@ -86,7 +86,7 @@ $error = 'Registro fallido. Por favor, intentelo nuevamente.';
 
 <title>Register </title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="styles.css">
 
 </head>
 
