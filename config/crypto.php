@@ -11,6 +11,11 @@ define('CLAVE_AES_256', 'C1av3S3cr3t4P4r4A3S256_PHP2026!');
 * @param string $textoPlano Texto a cifrar
 * @return string Texto cifrado en Base64 (incluye IV)
 */
+/**
+* NOTA DE SEGURIDAD EN PRODUCCION:
+* La clave AES-256 debe almacenarse en variables de entorno fuera de la raíz web,
+* generarse mediante un RNG criptográficamente seguro y rotarse periódicamente.
+*/
 function cifrarAES256($textoPlano) {
 $metodo = 'aes-256-cbc';
 $ivLength = openssl_cipher_iv_length($metodo);
