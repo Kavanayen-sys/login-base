@@ -18,14 +18,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$stmt->execute([$identifier, $identifier]);
 		$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		if ($user && password_verify($password, $user['password'])) {
-			session_regenerate_id(true);
-			$_SESSION['user_id'] = $user['id'];
-			$_SESSION['username'] = $user['username'];
-			$_SESSION['login_time'] = date('Y-m-d H:i:s');
-			header('Location: dashboard.php');
+	if ($user && password_verify($password , $user['password'])) {
+		require_once '../config/crypto.php';
+		// Generación de un token pseudoaleatorio seguro
+		$token_original = "SESION_" . bin2hex(random_bytes(16));
+		// Cifrado asimétrico mediante clave pública
+		$token_cifrado = cifrarRSA($token_original);
+		// Descifrado mediante clave privada
+		$token_descifrado = descifrarRSA($token_cifrado);
+		// Asignación de variables de sesión
+		$_SESSION['user_id'] = $user['id'];
+		$_SESSION['username'] = $user['username'];
+		$_SESSION['login_time'] = date('Y-m-d H:i:s');
+		$_SESSION['token_rsa_cifrado'] = $token_cifrado;
+		$_SESSION['token_rsa_descifrado'] = $token_descifrado;
+		header('Location: dashboard.php');
 			exit;
-		} else {
+	}else {
 			$error = 'Usuario, email o contraseña incorrectos.';
 		}
 	}
