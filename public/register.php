@@ -17,6 +17,7 @@ $username = trim($_POST['username']);
 $email = trim($_POST['email']);
 
 $telefono = trim($_POST['telefono'] ?? '');
+$telefono_cifrado = !empty($telefono) ? cifrarAES256($telefono) : null;
 
 $password = $_POST['password'];
 
@@ -54,8 +55,9 @@ $error = 'Nombre de usuario o email existentes';
 
 $hashed_password = password_hash($password , PASSWORD_DEFAULT);
 
-$stmt = $pdo->prepare("INSERT INTO users (username , email, password ,telefono_cifrado) VALUES (?, ?, ?, ?)");
-if ($stmt->execute([$username , $email, $hashed_password , $telefono_cifrado])) {
+$stmt = $pdo->prepare("INSERT INTO users (username , email, password ,
+telefono_cifrado) VALUES (?, ?, ?, ?)");
+if ([$stmt->execute([$username , $email, $hashed_password , $telefono_cifrado])]) {
 
 $success = '¡Registro exitoso!';
 
