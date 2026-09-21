@@ -3,6 +3,8 @@
 session_start();
 
 require_once '../config/database.php';
+require_once '../config/database.php';
+require_once '../config/crypto.php';
 
 $error = '';
 
@@ -13,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $username = trim($_POST['username']);
 
 $email = trim($_POST['email']);
+
+$telefono = trim($_POST['telefono'] ?? '');
 
 $password = $_POST['password'];
 
@@ -50,9 +54,8 @@ $error = 'Nombre de usuario o email existentes';
 
 $hashed_password = password_hash($password , PASSWORD_DEFAULT);
 
-$stmt = $pdo->prepare("INSERT INTO users (username , email, password) VALUES (?, ?, ?)");
-
-if ($stmt->execute([$username , $email, $hashed_password])) {
+$stmt = $pdo->prepare("INSERT INTO users (username , email, password ,telefono_cifrado) VALUES (?, ?, ?, ?)");
+if ($stmt->execute([$username , $email, $hashed_password , $telefono_cifrado])) {
 
 $success = '¡Registro exitoso!';
 
@@ -126,6 +129,11 @@ $error = 'Registro fallido. Por favor, intentelo nuevamente.';
 
 <input type="email" id="email" name="email" required>
 
+</div>
+
+<div class="form-group">
+<label for="telefono">Telefono (opcional)</label>
+<input type="text" id="telefono" name="telefono" placeholder="Ej: 555-1234">
 </div>
 
 <div class="form-group">
