@@ -81,5 +81,18 @@ A'); ?>
 </ul>
 </div>
 </div>
+
+<!-- Enlace de demostración HMAC dentro del contenedor principal -->
+<div style="margin-top: 20px; text-align: center;">
+<a href="validar_integridad.php" target="_blank" class="btn btn-primary"
+style="width: auto; padding: 10px 20px;">
+4
+4
+5
+6
+Probar Validación HMAC
+</a>
+</div>
+
 </body>
 </html>
